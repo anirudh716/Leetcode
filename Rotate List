@@ -1,0 +1,34 @@
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(head == NULL || k == 0)    return head; //if the linked list is empty or k equals to 0 then simply return the head
+
+        ListNode* temp = head; // Pointer to traverse the linked list
+        int n = 0; // To count the number of nodes in the linked list
+        
+        // Calculate the total number of nodes in the linked list
+        while (temp->next) {
+            temp = temp->next;
+            n++;
+        }
+        
+        // Connect the last node to the first node, making it a circular linked list
+        temp->next = head;
+        
+        k = k % (n + 1); // Calculate the effective number of rotations
+        int jump = n - k; // Calculate how many nodes to jump before the new head
+        
+        temp = head; // Reset the pointer to the beginning
+        
+        // Traverse to the node that will be the new tail after rotation
+        while (jump) {
+            temp = temp->next;
+            jump--;
+        }
+        
+        ListNode* newHead = temp->next; // The new head after rotation
+        temp->next = nullptr; // Set the new tail's next pointer to nullptr to break the circular list
+        
+        return newHead; // Return the new head after rotation
+    }
+};
