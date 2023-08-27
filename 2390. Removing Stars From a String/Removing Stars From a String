@@ -1,0 +1,26 @@
+class Solution {
+public:
+    string removeStars(string s) {
+        stack<int> nonStar; // Stack to store indices of non-star characters
+        
+        for (int i = 0; i < s.size(); ++i) {
+            if (s[i] != '*') 
+                nonStar.push(i); // Push non-star character index onto stack
+
+            else if (!nonStar.empty()) {
+                int nonStarIndex = nonStar.top();
+                nonStar.pop(); // Remove the closest non-star character
+                s[nonStarIndex] = '*'; // Remove the character
+            }
+        }
+        
+        string result = "";
+        for (char c : s) {
+            if (c != '*') {
+                result += c;
+            }
+        }
+        
+        return result;
+    }
+};
