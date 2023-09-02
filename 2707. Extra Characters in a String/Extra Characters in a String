@@ -1,0 +1,29 @@
+class Solution {
+    int solve(string& s, unordered_map<string, int>& m, vector<int>& dp, int idx) {
+        if (idx >= s.size()) {
+            return 0;
+        }
+        if (dp[idx] != -1) {
+            return dp[idx];
+        }
+        string currStr = "";
+        int minExtra = s.size();
+        for (int currIdx=idx; currIdx<s.size(); currIdx++) {
+            currStr += s[currIdx];
+            int currExtra = m.count(currStr) ? 0 : currStr.size();
+            int nextExtra = solve(s, m, dp, currIdx+1);
+            minExtra = min(minExtra, currExtra + nextExtra);
+        }
+        return dp[idx] = minExtra;
+    }
+public:
+    int minExtraChar(string s, vector<string>& dictionary) {
+        unordered_map<string, int> m;
+        vector<int> dp(s.size(), -1);
+        int n = dictionary.size();
+        for (int i=0; i<n; i++) {
+            m[dictionary[i]]++;
+        }
+        return solve(s, m, dp, 0);
+    }
+};
